@@ -177,7 +177,7 @@ class PersonaBO:
                     cursor.execute(updateSQL, updateValores) #ejecuta el SQL con las valores
                     self.db.commit() #crea un commit en la base de datos
                 else:
-                    raise Exception('La cédula indicada en el formulario no existe en la base de datos')  # si existe el registro con la misma cedual genera el error
+                    raise Exception('La rf indicada en el formulario no existe en la base de datos')  # si existe el registro con la misma cedual genera el error
             else:
                 raise Exception('Los datos no fueron digitados por favor validar la información')  # si no tiene todos los valores de genera un error
         except mysql.connector.Error as e:

@@ -4,8 +4,8 @@ from tkinter import IntVar #Para asociar los campos de numero con el compomente 
 class Amigos:
 
     def __init__(self):
+        self.pk_amigos = StringVar()
         self.nivel_de_amistad = StringVar()
-        self.amigos = StringVar()
         self.fk_cedulaOrigen = StringVar()
         self.fk_cedulaDestino = StringVar()
         self.lastUser = ""
@@ -13,14 +13,14 @@ class Amigos:
         
 
     def limpiar(self):
+        self.pk_amigos.set("")
         self.nivel_de_amistad.set("")
-        self.amigos.set("")
         self.fk_cedulaOrigen.set("")
         self.fk_cedulaDestino.set("")
 
 
     def printInfo(self):
-        print(f"Nivel de Amistad:{self.nivel_de_amistad.get()}")
-        print(f"Amigos:{self.amigos.get()}")
+        print(f"Nivel de Amistad:{self.pk_amigos.get()}")
+        print(f"Amigos:{self.nivel_de_amistad.get()}")
         print(f"Cedula Origen:{self.fk_cedulaOrigen.get()}")
         print(f"CedulaDestino:{self.fk_cedulaDestino.get()}")

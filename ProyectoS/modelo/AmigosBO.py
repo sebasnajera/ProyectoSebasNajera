@@ -29,8 +29,8 @@ class AmigosBO:
 
                 if(not self.exist(amigos)): #si no existe lo agrega
                     amigos.lastUser = "ChGari"
-                    insertSQL = "INSERT INTO Amigos (`nivel_de_amistad`, `amigos`, `FK_cedulaOrigen`, `FK_cedulaDestino`, `lastUser`, `lastModificacion`) VALUES (%s, %s, %s, %s, %s, CURDATE())"
-                    insertValores =  (amigos.nivel_de_amistad.get(), amigos.amigos.get(),amigos.fk_cedulaOrigen.get(),amigos.fk_cedulaDestino.get(), amigos.lastUser)
+                    insertSQL = "INSERT INTO Amigos (`nivel_de_amistad`, `pk_amigos`, `FK_cedulaOrigen`, `FK_cedulaDestino`, `lastUser`, `lastModificacion`) VALUES (%s, %s, %s, %s, %s, CURDATE())"
+                    insertValores =  (amigos.nivel_de_amistad.get(), amigos.pk_amigos.get(),amigos.fk_cedulaOrigen.get(),amigos.fk_cedulaDestino.get(), amigos.lastUser)
                     print(insertValores)
                     cursor = self.db.cursor() #crea un cursos con la conexión lo que nos permite conectarnos a la base de datos
                     cursor.execute(insertSQL, insertValores) #ejecuta el SQL con las valores
@@ -50,7 +50,7 @@ class AmigosBO:
     def exist(self , amigos):
         try:
             existe = False
-            selectSQL = "Select * from Amigos where nivel_de_amistad = " + amigos.nivel_de_amistad.get()
+            selectSQL = "Select * from Amigos where pk_amigos = " + amigos.pk_amigos.get()
             cursor = self.db.cursor()
             cursor.execute(selectSQL)
             if (cursor.fetchone()) : #Metodo obtiene un solo registro o none si no existe información
@@ -74,7 +74,7 @@ class AmigosBO:
         if amigos.nivel_de_amistad.get() == "" :
             valido = False
 
-        if amigos.amigos.get() == "" :
+        if amigos.pk_amigos.get() == "" :
             valido = False
         
         if amigos.fk_cedulaOrigen.get() == "" :
@@ -111,17 +111,17 @@ class AmigosBO:
     #*************************************************************************
     def consultarAmigos(self, amigos):
         try:
-            selectSQL = "Select * from Amigos where nivel_de_amistad = " + amigos.nivel_de_amistad.get()
+            selectSQL = "Select * from Amigos where pk_amigos = " + amigos.pk_amigos.get()
             cursor = self.db.cursor()
             cursor.execute(selectSQL)
-            amigosDB = cursor.fetchone()
-            if (amigosDB) : #Metodo obtiene un solo registro o none si no existe información
-                amigos.nivel_de_amistad.set(amigosDB[0]),
-                amigos.amigos.set(amigosDB[1]),
-                amigos.fk_cedulaOrigen.set(amigosDB[2])
-                amigos.fk_cedulaDestino.set(amigosDB[3])
+            personaBO = cursor.fetchone()
+            if (personaBO) : #Metodo obtiene un solo registro o none si no existe información
+                amigos.pk_amigos.set(personaBO[0])
+                amigos.nivel_de_amistad.set(personaBO[1])
+                amigos.fk_cedulaOrigen.set(personaBO[2])
+                amigos.fk_cedulaDestino.set(personaBO[3])
             else:
-                raise Exception("La cédula consultada no existe en la base de datos") 
+                raise Exception("El código consultado no existe en la base de datos") 
             
         except mysql.connector.Error as e:
             print("Something went wrong: {}".format(e))
@@ -134,7 +134,7 @@ class AmigosBO:
     #*************************************************************************
     def eliminar(self, amigos):
         try:
-            deleteSQL = "delete  from Amigos where nivel_de_amistad = " + amigos.nivel_de_amistad.get()
+            deleteSQL = "delete  from Amigos where pk_amigos = " + amigos.pk_amigos.get()
             cursor = self.db.cursor() #crea un cursos con la conexión lo que nos permite conectarnos a la base de datos
             cursor.execute(deleteSQL) #ejecuta el SQL con las valores
             self.db.commit() #crea un commit en la base de datos
@@ -155,8 +155,8 @@ class AmigosBO:
 
                 if(self.exist(amigos)): #si  existe lo modifica
                     amigos.lastUser = "ChGari"
-                    updateSQL = "UPDATE Amigos  set `amigos` = %s, `FK_cedulaOrigen` = %s, `FK_cedulaDestino` = %s, `lastUser` = %s, `lastModificacion` = CURDATE() WHERE `nivel_de_amistad` =  %s"
-                    updateValores =  (amigos.amigos.get(),amigos.fk_cedulaOrigen.get(),amigos.fk_cedulaDestino.get(), amigos.lastUser, amigos.nivel_de_amistad.get())
+                    updateSQL = "UPDATE Amigos  set `nivel_de_amistad` = %s, `FK_cedulaOrigen` = %s, `FK_cedulaDestino` = %s, `lastUser` = %s, `lastModificacion` = CURDATE() WHERE `pk_amigos` =  %s"
+                    updateValores =  (amigos.nivel_de_amistad.get(),amigos.fk_cedulaOrigen.get(),amigos.fk_cedulaDestino.get(), amigos.lastUser, amigos.pk_amigos.get())
                     #print(insertValores)
                     cursor = self.db.cursor() #crea un cursos con la conexión lo que nos permite conectarnos a la base de datos
                     cursor.execute(updateSQL, updateValores) #ejecuta el SQL con las valores

@@ -60,6 +60,8 @@ class Aplicacion:
         #*************************************************************************
         self.persona = Persona.Persona() #se crea el objeto de dominio para guardar la información
         self.insertando = True
+       
+        
         
         #*************************************************************************
         #se crean los campos de la pantalla telefono
